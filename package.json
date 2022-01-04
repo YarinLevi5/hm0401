@@ -1,0 +1,23 @@
+{
+  "name": "hm0401",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "change": "node run user-parsed.json",
+    "mongo": "node run mongo.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "5.0.1",
+    "delete": "^1.1.0",
+    "fs-extra": "10.0.0",
+    "jsonfile": "^6.1.0",
+    "lodash": "4.17.21",
+    "mongodb": "^4.2.2",
+    "uuid": "^8.3.2"
+  }
+}
