@@ -1,5 +1,7 @@
 const fs = require('fs-extra');
 let _ = require('lodash');
+var validator = require('validator');
+
 //callback
 fs.readJSON('./resources/users.json', (err, obj) => {
     if (err) console.error(err)
@@ -35,7 +37,6 @@ readObj();
 let json = require('./resources/users.json');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-const myPlaintextPassword = 's0/\/\P4$$w0rD';
 const {
     v4: uuidv4
 } = require('uuid');
@@ -43,21 +44,17 @@ const {
 json.forEach(key => {
     let userAge = (_.get(key, 'user_data.age', 18))
     console.log(userAge);
-    if (userAge > 21) {
-        key.canDrink = true;
-    } else {
-        key.canDrink = false;
-    }
+    key.canDrink = userAge > 21
     if (key.user_data.is_admin) {
         key.user_name = `${ key.user_name} admin`;
     }
+    const myPlaintextPassword = key.password;
     const hash = bcrypt.hashSync(myPlaintextPassword, saltRounds);
     //console.log(hash)
     key.password = hash;
     key['id'] = uuidv4();
-    if (!key.email.includes("@")) {
-        key.email = "notvalid@gmail.com"
-    }
+    if (!validator.isEmail(key.email))
+        key.email = "notvalid@gmail.com";
 });
 
 async function createJsonFile() {
